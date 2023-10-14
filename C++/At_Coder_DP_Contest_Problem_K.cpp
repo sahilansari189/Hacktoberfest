@@ -1,34 +1,41 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <cstring>
 
 using namespace std;
 
-bool dp[100005];
+bool canWin(const vector<int>& v, int targetSum) {
+    int n = v.size();
+    vector<bool> dp(targetSum + 1, false);
 
-void solve() {
-	ll n, k;
-	cin >> n >> k;
-	std::vector<ll> v(n);
-	for(int i = 0; i < n; i++) {
-		cin >> v[i];
-	}
-	memset(dp, false, sizeof dp);
+    for (int i = 1; i <= targetSum; i++) {
+        for (int x : v) {
+            if (i >= x && !dp[i - x])
+                dp[i] = true;
+        }
+    }
 
-	for (int i = 1; i <= k; i++) {
-		for (auto x : v) {
-			if (i >= x && dp[i - x] == false)
-				dp[i] = true;
-		}
-	}
-
-	if (dp[k])
-		cout << "First" << endl;
-	else
-		cout << "Second" << endl;
+    return dp[targetSum];
 }
 
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
 
-int32_t main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	solve();
-	return 0;
+    int numElements, targetSum;
+    cin >> numElements >> targetSum;
+
+    vector<int> v(numElements);
+    for (int i = 0; i < numElements; i++) {
+        cin >> v[i];
+    }
+
+    if (canWin(v, targetSum)) {
+        cout << "First" << endl;
+    } else {
+        cout << "Second" << endl;
+    }
+
+    return 0;
 }
